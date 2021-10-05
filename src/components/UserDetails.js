@@ -128,12 +128,12 @@ class BuyNow extends Component {
       this.setState({ checkedA: !this.state.checkedA });
     }
     this.setState({ modeOfPayment: value });
-    console.log(value);
+    console.log("userDetail switch value",value);
   };
 
   submitBtn = () => {
     const err = formValidation(this.state);
-    console.log(err);
+    console.log("userDetails err",err);
     if (Object.keys(err) === 0) {
       console.log("if btn");
       return (
@@ -208,8 +208,8 @@ class BuyNow extends Component {
       typeOfDelivery,
     } = this.state;
 
-    console.log(this.props);
-    console.log(typeOfDelivery);
+    console.log("userdetails props",this.props);
+    console.log("userdetail typeof delivery",typeOfDelivery);
     return (
       <Container>
         <Typography variant="h4">Fill Up The Details</Typography>

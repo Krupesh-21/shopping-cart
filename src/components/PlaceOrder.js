@@ -24,7 +24,7 @@ class PlaceOrder extends Component {
       (item) => item.price * item.quantity
     );
     const totalCost = totalCostArray.reduce((sum, current) => sum + current, 0);
-    console.log(product);
+    console.log("placeOrde Product",product);
     return (
       <div>
         <Container>

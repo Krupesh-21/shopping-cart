@@ -16,10 +16,12 @@ import StarIcon from "@material-ui/icons/Star";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import Empty from "./Empty";
 import { Link } from "react-router-dom";
+import SingleProductCard from "./reusable components/SingleProductCard";
 
 class MyOrder extends Component {
   render() {
     const { myOrder } = this.props;
+    console.log("myOrder",myOrder);
     return (
       <div>
         <Container>
@@ -106,6 +108,9 @@ class MyOrder extends Component {
             />
           )}
         </Container>
+        <div>
+          <SingleProductCard />
+        </div>
       </div>
     );
   }

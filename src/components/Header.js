@@ -1,22 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchSelectedCategory } from "../actions";
-import AddToCartButton from "./AddToCartButton";
-import MyOrderButton from "./MyOrderButton";
+import Button from "./Button";
+import SecondaryHeader from "./SecondaryHeader";
 
-const Header = ({ fetchSelectedCategory }) => {
+const Header = ({ fetchSelectedCategory, cart, myOrder }) => {
+  const [hamburgerClicked, setHamburgerClicked] = useState(false);
   return (
     <div className="header">
       <header>
         <nav>
+          <button
+            className="hamburger-menu-btn"
+            onClick={() => setHamburgerClicked(!hamburgerClicked)}
+          >
+            <i class="fas fa-bars"></i>
+          </button>
+          {hamburgerClicked && <SecondaryHeader cName="transition"/>}
           <ul>
-            <li>
+            <li className="header-navigation">
               <Link className="header-link" to="/">
                 Home
               </Link>
             </li>
-            <li>
+            <li className="header-navigation">
               <Link
                 className="header-link"
                 to="/category/menswear"
@@ -25,7 +33,7 @@ const Header = ({ fetchSelectedCategory }) => {
                 Men's Wear
               </Link>
             </li>
-            <li>
+            <li className="header-navigation">
               <Link
                 className="header-link"
                 to="/category/womenswear"
@@ -34,7 +42,7 @@ const Header = ({ fetchSelectedCategory }) => {
                 Women's Wear
               </Link>
             </li>
-            <li>
+            <li className="header-navigation">
               <Link
                 className="header-link"
                 to="/category/electronics"
@@ -43,7 +51,7 @@ const Header = ({ fetchSelectedCategory }) => {
                 electronics
               </Link>
             </li>
-            <li>
+            <li className="header-navigation">
               <Link
                 className="header-link"
                 to="/category/jewelery"
@@ -53,19 +61,21 @@ const Header = ({ fetchSelectedCategory }) => {
               </Link>
             </li>
             <li>
-              <Link
-                className="header-link"
-                to="/myorders"
-              >
-                <MyOrderButton/>
+              <Link className="header-link" to="/myorders">
+                <Button
+                  btnName="My Order"
+                  icon={<i class="fas fa-shopping-bag"></i>}
+                  length={myOrder.length}
+                />
               </Link>
             </li>
             <li>
-              <Link
-                className="header-link"
-                to="/cart"
-              >
-                <AddToCartButton/>
+              <Link className="header-link" to="/cart">
+                <Button
+                  btnName="Cart"
+                  icon={<i class="fas fa-shopping-cart"></i>}
+                  length={cart.length}
+                />
               </Link>
             </li>
           </ul>
@@ -75,4 +85,8 @@ const Header = ({ fetchSelectedCategory }) => {
   );
 };
 
-export default connect(null, { fetchSelectedCategory })(Header);
+const mapStateToProps = (state) => {
+  return { cart: state.cart, myOrder: state.myOrder };
+};
+
+export default connect(mapStateToProps, { fetchSelectedCategory })(Header);

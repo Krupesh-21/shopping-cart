@@ -1,5 +1,5 @@
 import products from "../products";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 
 export const fetchProducts = () => async (dispatch) => {
@@ -18,7 +18,6 @@ export const fetchProducts = () => async (dispatch) => {
 
 export const fetchProduct = (productId) => async (dispatch) => {
   const { data } = await products.get(`/products/${productId}`);
-  console.log(data);
 
   dispatch({
     type: "SELECTED_PRODUCT",
@@ -40,7 +39,7 @@ export const addedToCart = (productId) => {
 };
 
 export const addToCart = (selectedProduct) => {
-  console.log("selectedProduct", selectedProduct);
+  console.log("fired atc");
   return {
     type: "ADD_TO_CART",
     payload: {
@@ -143,7 +142,7 @@ export const addToMyOrder = (order, totalCost, userDetail) => {
     ...userDetail,
     totalCost,
     orderId: uuidv4(),
-    orderDate: moment().format('LL')
+    orderDate: moment().format("LL"),
   };
   return {
     type: "MY_ORDER",

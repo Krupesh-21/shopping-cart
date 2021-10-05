@@ -32,7 +32,6 @@ export const selectedProductReducer = (state = {}, action) => {
 };
 
 export const addToCartReducer = (state = [], action) => {
-  console.log(action.payload);
   switch (action.type) {
     case "ADD_TO_CART":
       const found = state.find((item) => item.id === action.payload.selectedProduct.id);

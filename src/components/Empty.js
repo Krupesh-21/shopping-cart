@@ -2,11 +2,12 @@ import React from "react";
 import { Paper, Container, Typography } from "@material-ui/core";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
-
+import Card from "./reusable components/Card";
 const Empty = ({ label, component }) => {
   return (
     <div style={{ marginTop: "15px" }}>
       <Container>
+          <Card/>
         <Paper>
           {component === "cart" ? (
             <RemoveShoppingCartIcon className="empty-cart-icon" />
