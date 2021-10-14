@@ -11,7 +11,6 @@ const store = createStore(reducers, loadState(), applyMiddleware(thunk));
 
 store.subscribe(() => saveState(store.getState()));
 
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

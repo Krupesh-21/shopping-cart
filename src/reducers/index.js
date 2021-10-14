@@ -1,7 +1,6 @@
 import { combineReducers } from "redux";
 import {
   addToCartReducer,
-  buyProductReducer,
   checkoutAllReducer,
   myOrderReducer,
   productReducer,
@@ -16,7 +15,6 @@ export default combineReducers({
   cart: addToCartReducer,
   selectedCategoryProducts: selectedCategoryReducer,
   userDetail: userDetailReducer,
-  buyProduct: buyProductReducer,
   myOrder: myOrderReducer,
   checkoutAll: checkoutAllReducer
 });

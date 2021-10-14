@@ -34,7 +34,7 @@ const Card = ({
             <img src={productImage} alt={productTitle} />
           </div>
           <div className="card-content" onClick={handleFetchProduct}>
-            <Link to={`products/${product.id}`} className="link">
+            <Link to={`/products/${product.id}`} className="link">
               {`${productDescription}...`}
             </Link>
           </div>
@@ -44,7 +44,6 @@ const Card = ({
               <p>{productPrice}</p>
             </div>
             <button className="card-atc" onClick={handleAddToCart}>
-              {/* Add To Cart */}
               <i class="fas fa-cart-plus"></i>
             </button>
           </div>

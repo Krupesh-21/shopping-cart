@@ -22,8 +22,11 @@ export default function formValidation({
   if (!address) {
     error.errAddress = "Please Fill the Comment field.";
   }
-  if (!phoneNo) {
-    error.errPhoneNo = "Please Fill the Post No.";
+  if (typeof phoneNo !== "number" &&
+  phoneNo === null) {
+    error.errPhoneNo = "Please Fill the Phone No.";
+  } else if(phoneNo.length !== 10){
+    error.errPhoneNo = "Phone No must consist only 10 digit";
   }
   if (!city) {
     error.errCity = "Please Fill the Comment field.";

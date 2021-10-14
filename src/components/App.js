@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Products from "./Products";
-// import "bootstrap/dist/css/bootstrap.min.css";
 import ProductDetail from "./ProductDetail";
 import Cart from "./Cart";
 import "../App.css";
@@ -11,13 +10,13 @@ import Category from "./Category";
 import UserDetails from "./UserDetails";
 import PlaceOrder from "./PlaceOrder";
 import MyOrder from "./MyOrder";
+import Empty from "./Empty";
 
 const App = () => {
   return (
     <div className="app-container">
       <Router>
         <Header />
-
         <Switch>
           <Route path="/" exact render={() => <Products />} />
           <Route path="/cart" exact render={() => <Cart />} />
@@ -46,28 +45,18 @@ const App = () => {
             exact
             render={(props) => <PlaceOrder {...props} />}
           />
-          <Route path="/category/menswear" exact render={() => <Category />} />
-          <Route
-            path="/category/womenswear"
-            exact
-            render={() => <Category />}
-          />
-          <Route
-            path="/category/electronics"
-            exact
-            render={() => <Category />}
-          />
-          <Route path="/category/jewelery" exact render={() => <Category />} />
+          <Route path="/category/:categoryName" render={() => <Category />} />
           <Route path="/products/:productId" render={() => <ProductDetail />} />
-          <Route>404 Product Not Found!!</Route>
+          <Route>
+            <Empty
+              label="No Items found!!"
+              icon={<i class="fas fa-exclamation-triangle"></i>}
+            />
+          </Route>
         </Switch>
       </Router>
     </div>
   );
 };
-
-// const mapStateToProps = (state) => {
-//   return { selectedCategoryProduct: state.selectedCategoryProducts };
-// };
 
 export default connect(null)(App);

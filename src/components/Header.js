@@ -15,9 +15,13 @@ const Header = ({ fetchSelectedCategory, cart, myOrder }) => {
             className="hamburger-menu-btn"
             onClick={() => setHamburgerClicked(!hamburgerClicked)}
           >
-            <i class="fas fa-bars"></i>
+            {hamburgerClicked ? (
+              <i class="fas fa-times"></i>
+            ) : (
+              <i class="fas fa-bars"></i>
+            )}
           </button>
-          {hamburgerClicked && <SecondaryHeader cName="transition"/>}
+          {hamburgerClicked && <SecondaryHeader cName="transition" />}
           <ul>
             <li className="header-navigation">
               <Link className="header-link" to="/">
@@ -85,8 +89,10 @@ const Header = ({ fetchSelectedCategory, cart, myOrder }) => {
   );
 };
 
+const mapDispatchToProps = { fetchSelectedCategory };
+
 const mapStateToProps = (state) => {
   return { cart: state.cart, myOrder: state.myOrder };
 };
 
-export default connect(mapStateToProps, { fetchSelectedCategory })(Header);
+export default connect(mapStateToProps,mapDispatchToProps)(Header);

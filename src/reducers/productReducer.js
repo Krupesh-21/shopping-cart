@@ -34,10 +34,11 @@ export const selectedProductReducer = (state = {}, action) => {
 export const addToCartReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_TO_CART":
-      const found = state.find((item) => item.id === action.payload.selectedProduct.id);
-      console.log("found",found);
+      const found = state.find(
+        (item) => item.id === action.payload.selectedProduct.id
+      );
+      console.log("found", found);
       if (found) {
-        // console.log("if",found);
         const quant = state.map((product) =>
           product.id === action.payload.selectedProduct.id
             ? { ...product, quantity: product.quantity + 1 }
@@ -45,29 +46,28 @@ export const addToCartReducer = (state = [], action) => {
         );
         return quant;
       } else {
-        // console.log("else",found);
         const { selectedProduct, quantity } = action.payload;
         const newCartData = [...state, { ...selectedProduct, quantity }];
         return newCartData;
       }
     case "REMOVE_ITEM_FROM_CART":
-      if(action.payload.quantity > 1){
+      if (action.payload.quantity > 1) {
         const updatedCart = state.map((item) => {
           if (item.id === action.payload.id) {
             return { ...item, quantity: item.quantity - 1 };
           }
           return item;
         });
-        return updatedCart; 
-      } else{
+        return updatedCart;
+      } else {
         const newCart = state.filter((item) => item.id !== action.payload.id);
         return newCart;
       }
     case "REMOVE_ITEM":
       const nCart = state.filter((item) => item.id !== action.payload);
-        return nCart;
+      return nCart;
     case "EMPTY_CART":
-      return []
+      return [];
     default:
       return state;
   }
@@ -96,45 +96,44 @@ export const selectedCategoryReducer = (state = [], action) => {
   }
 };
 
-
-export const userDetailReducer = (state={}, action)=>{
+export const userDetailReducer = (state = {}, action) => {
   switch (action.type) {
     case "USER_DETAILS":
       return action.payload;
-  
+
     default:
       return state;
   }
-}
+};
 
-export const buyProductReducer = (state={},action)=>{
-  switch (action.type) {
-    case "BUY_THIS_PRODUCT":
-      return action.payload;
-  
-    default:
-      return state;
-  }
-}
-
-export const myOrderReducer = (state=[],action)=>{
+export const myOrderReducer = (state = [], action) => {
   switch (action.type) {
     case "MY_ORDER":
-      return [...state,action.payload]
-  
+      return [...state, action.payload];
+
     default:
       return state;
   }
-}
+};
 
-export const checkoutAllReducer = (state=[],action)=>{
+export const checkoutAllReducer = (state = [], action) => {
   switch (action.type) {
     case "CHECKOUT_ALL":
       return action.payload;
     case "EMPTY_CHECKOUT":
       return [];
-  
+
     default:
       return state;
   }
-}
+};
+
+// export const buyProductReducer = (state = {}, action) => {
+//   switch (action.type) {
+//     case "BUY_THIS_PRODUCT":
+//       return action.payload;
+
+//     default:
+//       return state;
+//   }
+// };

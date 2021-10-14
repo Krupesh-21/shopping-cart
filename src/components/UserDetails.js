@@ -1,21 +1,11 @@
 import React, { Component } from "react";
-import {
-  Paper,
-  Container,
-  Typography,
-  TextField,
-  Button,
-  Switch,
-  FormControlLabel,
-} from "@material-ui/core";
-import SaveIcon from "@material-ui/icons/Save";
-import { userDetails, buyThisProduct } from "../actions";
+import { userDetails } from "../actions";
 import { connect } from "react-redux";
 import formValidation from "./formValidation";
 const emailValidator =
   /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-class BuyNow extends Component {
+class UserDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,83 +28,61 @@ class BuyNow extends Component {
       checkedB: false,
     };
   }
-
-  handleNameChange = (e) => {
-    this.setState({ name: e.target.value }, () => {
-      if (this.state.name.length < 1) {
-        this.setState({ nameErr: "Please Fill Up the name field" });
-      } else {
-        this.setState({ nameErr: "" });
-      }
-    });
-  };
-
-  handleEmailChange = (e) => {
-    this.setState({ email: e.target.value }, () => {
-      if (this.state.email.length < 1) {
-        this.setState({ emailErr: "Please Fill Up the email field" });
-      } else if (!emailValidator.test(this.state.email)) {
-        this.setState({ emailErr: "Email is not valid" });
-      } else {
-        this.setState({ emailErr: "" });
-      }
-    });
-  };
-
-  handlePhoneNoChange = (e) => {
-    this.setState({ phoneNo: e.target.value }, () => {
-      if (
-        typeof this.state.phoneNo !== "number" &&
-        this.state.phoneNo === null
-      ) {
-        this.setState({ phoneNoErr: "Please Fill Up the Phone No field" });
-      } else if (this.state.phoneNo.length !== 10) {
-        this.setState({ phoneNoErr: "Phone No must consist only 10 digit" });
-      } else {
-        this.setState({ phoneNoErr: "" });
-      }
-    });
-  };
-
-  handleAddressChange = (e) => {
-    this.setState({ address: e.target.value }, () => {
-      if (this.state.address.length < 1) {
-        this.setState({ addressErr: "Please Fill Up the address field" });
-      } else {
-        this.setState({ addressErr: "" });
-      }
-    });
-  };
-
-  handleCityChange = (e) => {
-    this.setState({ city: e.target.value }, () => {
-      if (this.state.city.length < 1) {
-        this.setState({ cityErr: "Please Fill Up the city field" });
-      } else {
-        this.setState({ cityErr: "" });
-      }
-    });
-  };
-
-  handleStateChange = (e) => {
-    this.setState({ state: e.target.value }, () => {
-      if (this.state.state.length < 1) {
-        this.setState({ stateErr: "Please Fill Up the city field" });
-      } else {
-        this.setState({ stateErr: "" });
-      }
-    });
-  };
-
-  handlePincodeChange = (e) => {
-    this.setState({ pincode: e.target.value }, () => {
-      if (this.state.pincode.length < 1) {
-        this.setState({ pincodeErr: "Please Fill Up the city field" });
-      } else if (this.state.pincode.length !== 6) {
-        this.setState({ pincodeErr: "Pincode must be only 6 digit" });
-      } else {
-        this.setState({ pincodeErr: "" });
-      }
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ ...this.state, [name]: value }, () => {
+      if (name === "name") {
+        if (this.state.name.length < 1) {
+          this.setState({ nameErr: "Please Fill Up the name field" });
+        } else {
+          this.setState({ nameErr: "" });
+        }
+      } else if (name === "email") {
+        if (this.state.email.length < 1) {
+          this.setState({ emailErr: "Please Fill Up the email field" });
+        } else if (!emailValidator.test(this.state.email)) {
+          this.setState({ emailErr: "Email is not valid" });
+        } else {
+          this.setState({ emailErr: "" });
+        }
+      } else if (name === "phoneNo") {
+        if (
+          typeof this.state.phoneNo !== "number" &&
+          this.state.phoneNo === null
+        ) {
+          this.setState({ phoneNoErr: "Please Fill Up the Phone No field" });
+        } else if (this.state.phoneNo.length !== 10) {
+          this.setState({ phoneNoErr: "Phone No must consist only 10 digit" });
+        } else {
+          this.setState({ phoneNoErr: "" });
+        }
+      } else if (name === "address") {
+        if (this.state.address.length < 1) {
+          this.setState({ addressErr: "Please Fill Up the address field" });
+        } else {
+          this.setState({ addressErr: "" });
+        }
+      } else if (name === "city") {
+        if (this.state.city.length < 1) {
+          this.setState({ cityErr: "Please Fill Up the city field" });
+        } else {
+          this.setState({ cityErr: "" });
+        }
+      } else if (name === "state") {
+        if (this.state.state.length < 1) {
+          this.setState({ stateErr: "Please Fill Up the city field" });
+        } else {
+          this.setState({ stateErr: "" });
+        }
+      } else if (name === "pincode") {
+        if (this.state.pincode.length < 1) {
+          this.setState({ pincodeErr: "Please Fill Up the city field" });
+        } else if (this.state.pincode.length !== 6) {
+          this.setState({ pincodeErr: "Pincode must be only 6 digit" });
+        } else {
+          this.setState({ pincodeErr: "" });
+        }
+      } else return;
     });
   };
 
@@ -128,37 +96,45 @@ class BuyNow extends Component {
       this.setState({ checkedA: !this.state.checkedA });
     }
     this.setState({ modeOfPayment: value });
-    console.log("userDetail switch value",value);
+    console.log("userDetail switch value", value);
   };
 
   submitBtn = () => {
     const err = formValidation(this.state);
-    console.log("userDetails err",err);
-    if (Object.keys(err) === 0) {
-      console.log("if btn");
+    console.log("userDetails err", Object.keys(err).length !== 0);
+    console.log("ERR", err);
+    const { checkedA, checkedB } = this.state;
+    let isFormValid;
+    if (
+      (Object.keys(err).length !== 0 &&
+        checkedA === false &&
+        checkedB === false) ||
+      (Object.keys(err).length !== 0 &&
+        (checkedA === true || checkedB === true)) ||
+      (Object.keys(err).length === 0 &&
+        checkedA === false &&
+        checkedB === false)
+    ) {
+      isFormValid = false;
+    }
+    console.log("isFormValid", isFormValid);
+    if (isFormValid === false) {
+      console.log("if btn", checkedA === false && checkedB === false);
       return (
-        <Button
-          variant="contained"
-          size="small"
-          type="submit"
+        <button
           disabled
-          startIcon={<SaveIcon />}
-          style={{ marginTop: "15px" }}
+          className="user-detail-submit-btn btn-disabled"
+          type="submit"
         >
           Submit
-        </Button>
+        </button>
       );
     } else {
       console.log("else btn");
       return (
-        <Button
-          variant="contained"
-          size="small"
-          startIcon={<SaveIcon />}
-          type="submit"
-        >
+        <button className={`user-detail-submit-btn`} type="submit">
           Submit
-        </Button>
+        </button>
       );
     }
   };
@@ -205,144 +181,122 @@ class BuyNow extends Component {
       pincodeErr,
       checkedA,
       checkedB,
-      typeOfDelivery,
     } = this.state;
 
-    console.log("userdetails props",this.props);
-    console.log("userdetail typeof delivery",typeOfDelivery);
     return (
-      <Container>
-        <Typography variant="h4">Fill Up The Details</Typography>
-        <Paper elevation={2} style={{ padding: "15px", marginTop: "5px" }}>
-          <form onSubmit={this.handleSubmit}>
-            <Typography variant="h6" color="secondary">
-              User Details
-            </Typography>
-            <div style={{ marginTop: "20px" }}>
-              <TextField
-                {...(nameErr ? { error: true } : { error: false })}
-                defaultValue={name}
-                onChange={this.handleNameChange}
-                label="Name"
-                style={{ width: "30%" }}
-                helperText={nameErr}
+      <div className="container">
+        <form onSubmit={this.handleSubmit} className="user-detail-form">
+          <fieldset className="user-detail-fieldset">
+            <legend>User Details</legend>
+            <label htmlFor="userName">User Name:</label>
+            <input
+              id="userName"
+              value={name}
+              onChange={this.handleChange}
+              placeholder="Name"
+              type="text"
+              name="name"
+            />
+            {nameErr && <p className="form-error">{nameErr}</p>}
+            <label htmlFor="userEmail">User Email:</label>
+            <input
+              id="userEmail"
+              value={email}
+              onChange={this.handleChange}
+              placeholder="Email"
+              type="text"
+              name="email"
+            />
+            {emailErr && <p className="form-error">{emailErr}</p>}
+            <label htmlFor="userPhoneNo">User Phone No.:</label>
+            <input
+              id="userPhoneNo"
+              value={phoneNo}
+              onChange={this.handleChange}
+              placeholder="Phone Number"
+              type="tel"
+              name="phoneNo"
+            />
+            {phoneNoErr && <p className="form-error">{phoneNoErr}</p>}
+            <label htmlFor="userAddress">User Address:</label>
+            <input
+              id="userAddress"
+              value={address}
+              onChange={this.handleChange}
+              placeholder="Address"
+              type="text"
+              name="address"
+            />
+            {addressErr && <p className="form-error">{addressErr}</p>}
+            <label htmlFor="userCity">City:</label>
+            <input
+              id="userCity"
+              value={city}
+              onChange={this.handleChange}
+              placeholder="City"
+              type="text"
+              name="city"
+            />
+            {cityErr && <p className="form-error">{cityErr}</p>}
+            <label htmlFor="userState">State:</label>
+            <input
+              id="userState"
+              value={state}
+              onChange={this.handleChange}
+              placeholder="State"
+              type="text"
+              name="state"
+            />
+            {stateErr && <p className="form-error">{stateErr}</p>}
+            <label htmlFor="userPincode">Pincode:</label>
+            <input
+              id="userPincode"
+              value={pincode}
+              onChange={this.handleChange}
+              placeholder="Pincode"
+              type="number"
+              maxlength="6"
+              name="pincode"
+            />
+            {pincodeErr && <p className="form-error">{pincodeErr}</p>}
+          </fieldset>
+
+          <fieldset className="payment-switch-fieldset">
+            <legend>Payment Mode</legend>
+            <div className="payment-switch">
+              <input
+                id="online"
+                value="Online"
+                onChange={this.handleSwitch}
+                checked={checkedA}
+                name="checkedA"
+                type="checkbox"
               />
+              <label htmlFor="online">Online</label>
             </div>
-            <div style={{ marginTop: "20px" }}>
-              <TextField
-                {...(emailErr ? { error: true } : { error: false })}
-                defaultValue={email}
-                onChange={this.handleEmailChange}
-                label="Email"
-                type="email"
-                style={{ width: "30%" }}
-                helperText={emailErr}
+            <div className="payment-switch">
+              <input
+                id="cod"
+                value="Cash On Delivery"
+                onChange={this.handleSwitch}
+                checked={checkedB}
+                name="checkedB"
+                type="checkbox"
               />
+              <label htmlFor="cod">Cash on Delivery</label>
             </div>
-            <div style={{ marginTop: "20px", marginBottom: "20px" }}>
-              <TextField
-                {...(phoneNoErr ? { error: true } : { error: false })}
-                defaultValue={phoneNo}
-                onChange={this.handlePhoneNoChange}
-                label="Phone No"
-                type="number"
-                style={{ width: "30%" }}
-                helperText={phoneNoErr}
-              />
-            </div>
-            <Typography variant="h6" color="secondary">
-              User Address
-            </Typography>
-            <div style={{ marginTop: "10px" }}>
-              <TextField
-                {...(addressErr ? { error: true } : { error: false })}
-                defaultValue={address}
-                onChange={this.handleAddressChange}
-                label="Address"
-                style={{ width: "30%" }}
-                helperText={addressErr}
-              />
-            </div>
-            <div style={{ marginTop: "20px" }}>
-              <TextField
-                {...(cityErr ? { error: true } : { error: false })}
-                defaultValue={city}
-                onChange={this.handleCityChange}
-                label="City"
-                helperText={cityErr}
-              />
-            </div>
-            <div style={{ marginTop: "20px" }}>
-              <TextField
-                {...(stateErr ? { error: true } : { error: false })}
-                defaultValue={state}
-                onChange={this.handleStateChange}
-                label="State"
-                helperText={stateErr}
-              />
-            </div>
-            <div style={{ marginTop: "20px" }}>
-              <TextField
-                {...(pincodeErr ? { error: true } : { error: false })}
-                defaultValue={pincode}
-                onChange={this.handlePincodeChange}
-                label="Pincode"
-                helperText={pincodeErr}
-              />
-            </div>
-            <div style={{ marginTop: "15px" }}>
-              <Typography variant="h6" color="secondary">
-                Mode of Payment:
-              </Typography>
-            </div>
-            <div>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={checkedB}
-                    onChange={this.handleSwitch}
-                    name="checkedB"
-                    color="primary"
-                    value="Cash on delivery"
-                  />
-                }
-                label="Cash on Delivery"
-              />
-            </div>
-            <div>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={checkedA}
-                    onChange={this.handleSwitch}
-                    name="checkedA"
-                    color="primary"
-                    value="Online"
-                  />
-                }
-                label="Online"
-              />
-            </div>
-            {/* {this.submitBtn()} */}
-            <Button
-              variant="contained"
-              size="small"
-              startIcon={<SaveIcon />}
-              type="submit"
-            >
-              Submit
-            </Button>
-          </form>
-        </Paper>
-      </Container>
+          </fieldset>
+          {this.submitBtn()}
+        </form>
+      </div>
     );
   }
 }
+
+const mapDispatchToProps = { userDetails };
 
 const mapStateToProps = (state) => {
   return { cart: state.cart };
 };
 
-export default connect(mapStateToProps, { userDetails, buyThisProduct })(
-  BuyNow
-);
+export default connect(mapStateToProps, mapDispatchToProps)(UserDetails);

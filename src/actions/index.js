@@ -4,15 +4,10 @@ import moment from "moment";
 
 export const fetchProducts = () => async (dispatch) => {
   const { data } = await products.get("/products");
-  const uData = data.map((item) => {
-    return {
-      ...item,
-      addedToCart: false,
-    };
-  });
+
   dispatch({
     type: "FETCH_PRODUCTS",
-    payload: uData,
+    payload: data,
   });
 };
 
@@ -31,13 +26,6 @@ export const removeSelectedProduct = () => {
   };
 };
 
-export const addedToCart = (productId) => {
-  return {
-    type: "ADDED_TO_CART",
-    payload: productId,
-  };
-};
-
 export const addToCart = (selectedProduct) => {
   console.log("fired atc");
   return {
@@ -49,15 +37,7 @@ export const addToCart = (selectedProduct) => {
   };
 };
 
-export const addQuantity = (productId) => {
-  return {
-    type: "ADD_QUANTITY",
-    payload: productId,
-  };
-};
-
 export const removeItemFromCart = (product) => {
-  // console.log("asdfghjkl",productId);
   return {
     type: "REMOVE_ITEM_FROM_CART",
     payload: product,
@@ -79,8 +59,6 @@ export const fetchSelectedCategory = (category) => async (dispatch) => {
       addedToCart: false,
     };
   });
-
-  console.log("selected category");
 
   dispatch({
     type: "SELECTED_CATEGORY",
@@ -129,13 +107,6 @@ export const userDetails = ({
   };
 };
 
-export const buyThisProduct = (product) => {
-  return {
-    type: "BUY_THIS_PRODUCT",
-    payload: product,
-  };
-};
-
 export const addToMyOrder = (order, totalCost, userDetail) => {
   const updTedProd = {
     myOrder: order,
@@ -151,6 +122,7 @@ export const addToMyOrder = (order, totalCost, userDetail) => {
 };
 
 export const checkoutAll = (cart) => {
+  console.log("cart", cart);
   return {
     type: "CHECKOUT_ALL",
     payload: cart,
